@@ -1,5 +1,29 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, varchar, uuid } from "drizzle-orm/pg-core";
+import { FaCommentSlash } from "react-icons/fa";
+
+export const posts = pgTable("posts", {
+  postId: uuid("post_id").primaryKey().defaultRandom(),
+  postContent: varchar("post_content", {length: 255}).notNull(),
+  postAuthorName: text("post_author_name").references(() => user.name).notNull(),
+  postAuthorId: text("post_author_id").references(() => user.id).notNull(),
+})
+
+export const forums = pgTable("forums", {
+  forum_id: uuid("forum_id").primaryKey().defaultRandom(),
+  forumName: varchar("forum_name").unique().notNull(),
+  forumCreatorName: varchar("creator_name").references(() => user.name).notNull(),
+  forumCreatorId: varchar("creator_id").references(() => user.id).notNull(),
+  //Will add more content to this later like descriptions, user count, etc...
+})
+
+export const replies = pgTable("replies", {
+  replyId: uuid("reply_id").primaryKey().defaultRandom(),
+  replyContent: varchar("reply_content", {length: 255}).notNull(),
+  replyAuthorName: text("reply_author_name").references(() => user.name).notNull(),
+  replyAuthorId: text("reply_author_id").references(() => user.id).notNull(),
+  originalPost: uuid("original_post").references(() => posts.postId).notNull()
+})
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -91,3 +115,24 @@ export const accountRelations = relations(account, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+export const forumRelations = relations(forums, ({many}) => ({
+  members: many(user),
+  posts: many(posts),
+  replies: many(replies),
+}))
+
+export const postRelations = relations(posts, ({one, many}) => ({
+  creator: one(user, {
+    fields: [posts.postAuthorName, posts.postAuthorId],
+    references: [user.name, user.id],
+  }),
+  replies: many(replies)
+}))
+
+export const repliesRelations = relations(replies, ({one}) => ({
+  creator: one(user, {
+    fields: [replies.replyAuthorName, replies.replyAuthorId],
+    references: [user.name, user.id],
+  }),
+}))
