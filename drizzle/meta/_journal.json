@@ -15,6 +15,13 @@
       "when": 1786250531404,
       "tag": "0001_careful_boomer",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786251719863,
+      "tag": "0002_naive_tomorrow_man",
+      "breakpoints": true
     }
   ]
 }
