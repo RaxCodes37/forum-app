@@ -42,3 +42,13 @@ button:hover {
   background-color: var(--container-bg);
   border: 1px solid var(--container-border);
 }
+
+.danger-button{
+  background-color: #853b3b;
+  border: 1px solid #be5e5e;
+}
+
+.danger-button:hover{
+  background-color: #562424;
+  border-color: #ed8080;
+}
