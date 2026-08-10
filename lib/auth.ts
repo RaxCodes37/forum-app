@@ -1,11 +1,14 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter";
 import { db } from "@/app/src/index";
+import { nextCookies } from "better-auth/next-js";
+import { headers } from "next/headers";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { 
     provider: "pg",
   }), 
+  plugins: [nextCookies()],
   emailAndPassword: { 
     enabled: true,
   }, 
@@ -16,3 +19,7 @@ export const auth = betterAuth({
     }, 
   }, 
 });
+
+export const getSession = async() => auth.api.getSession({
+  headers: await headers()
+})
