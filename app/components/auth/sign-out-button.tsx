@@ -6,7 +6,7 @@ export default function SignOutButton() {
 	const signOut = async() => await signOutAction()
 	
 	return (
-		<button onClick={signOut} >		
+		<button onClick={signOut} className="px-2 py-1 mt-5 danger-button w-30">		
 			Sign-Out
 		</button>
 	)
