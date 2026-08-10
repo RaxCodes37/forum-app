@@ -5,4 +5,6 @@ export default async function Home() {
   const session = await getSession();
   
   if(!session) redirect("/sign-in");
+
+  redirect("/home")
 }
