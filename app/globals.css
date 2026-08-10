@@ -30,6 +30,12 @@ button {
   border: 1px solid var(--elements-border);
   border-radius: 6px;
   background-color: var(--elements-bg);
+  transition: 300ms;
+}
+
+button:hover {
+  background-color: #413e3e;
+  border-color: #595757;
 }
 
 #container {

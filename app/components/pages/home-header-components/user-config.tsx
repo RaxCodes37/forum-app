@@ -1,10 +1,10 @@
-import { FaUser } from "react-icons/fa";
+import { RiUserSettingsFill } from "react-icons/ri";
 
 export default function UserConfig() {
   return (
     <div>
-      <button className="px-4 h-10 rounded-full mt-1">
-        <FaUser />
+      <button className="px-4 h-10 mt-1">
+        <RiUserSettingsFill />
       </button>
     </div>
   );
