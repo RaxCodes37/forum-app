@@ -1,6 +1,6 @@
 import { signInAction } from "../api/actions";
 import SignInButton from "../components/auth/sign-in-button";
-import NavBar from "../components/auth-navbar";
+import NavBar from "../components/auth/auth-navbar";
 
 export default function SignInPage() {
   return (
