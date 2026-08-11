@@ -1,6 +1,5 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index, varchar, uuid } from "drizzle-orm/pg-core";
-import { FaCommentSlash } from "react-icons/fa";
 
 export const posts = pgTable("posts", {
   postId: uuid("post_id").primaryKey().defaultRandom(),
