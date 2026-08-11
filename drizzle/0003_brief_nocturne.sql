@@ -1,0 +1,1 @@
+ALTER TABLE "forums" ADD COLUMN "forum_description" varchar(400);
