@@ -12,9 +12,10 @@ export const posts = pgTable("posts", {
 export const forums = pgTable("forums", {
   forum_id: uuid("forum_id").primaryKey().defaultRandom(),
   forumName: varchar("forum_name").unique().notNull(),
+  forumDescription: varchar("forum_description", {length: 400}),
   forumCreatorName: varchar("creator_name").references(() => user.name).notNull(),
   forumCreatorId: varchar("creator_id").references(() => user.id).notNull(),
-  //Will add more content to this later like descriptions, user count, etc...
+  //To user count I need to add the forum_members table and I will do that later
 })
 
 export const replies = pgTable("replies", {
