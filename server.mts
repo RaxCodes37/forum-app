@@ -14,7 +14,9 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on('connection', (socket) => {
-  
+    socket.on("forum-created", ({ forumName, forumDescription, userId, userName }) => {
+      console.log(`User: ${userName} created new forum: ${forumName}`)
+    })
   });
 
   httpServer
