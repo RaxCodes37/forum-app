@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "messageColor" varchar(10) DEFAULT '#8bb3e5' NOT NULL;
