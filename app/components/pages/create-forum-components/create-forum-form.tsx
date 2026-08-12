@@ -14,7 +14,6 @@ interface Props {
 export default function CreateForumForm({userName, userId}: Props) {
   const [forumName, setForumName] = useState<string>("");
   const [forumDescription, setForumDescription] = useState<string>("");
-  const [newForum, setNewForum] = useState<Forum[]>([]);
 
   useEffect(() => {	
 		return () => {
@@ -25,7 +24,7 @@ export default function CreateForumForm({userName, userId}: Props) {
   const createForumFunction = async(e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { forumName, forumDescription, userId, userName };
+    const data = { forumName, userName };
     await createForum(forumName, forumDescription, userId, userName);
     socket.emit("forum-created", data);
 

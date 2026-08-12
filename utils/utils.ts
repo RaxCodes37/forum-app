@@ -1,7 +1,7 @@
-"use server"
+"use server";
 
 import { db } from "@/app/src";
-import { forums } from "@/auth-schema";
+import { forums, messages } from "@/auth-schema";
 
 export interface Forum {
   forumName: string;
@@ -9,17 +9,52 @@ export interface Forum {
   forumCreatorName: string;
 }
 
-export const createForum = async (forumName: string, forumDescription: string, forumCreatorId: string, forumCreatorName: string) => {
-  const newForum = await db.insert(forums).values({
-    forumName,
-    forumDescription,
-    forumCreatorId,
-    forumCreatorName,
-  }).returning({
-    forumName: forums.forumName,
-    forumDescription: forums.forumDescription,
-    forumCreatorName: forums.forumCreatorName,
-  })
+export interface Message {
+  messageContent: string;
+  messageCreatorName: string;
+}
+
+export const createForum = async (
+  forumName: string,
+  forumDescription: string,
+  forumCreatorId: string,
+  forumCreatorName: string,
+) => {
+  const newForum = await db
+    .insert(forums)
+    .values({
+      forumName,
+      forumDescription,
+      forumCreatorId,
+      forumCreatorName,
+    })
+    .returning({
+      forumName: forums.forumName,
+      forumDescription: forums.forumDescription,
+      forumCreatorName: forums.forumCreatorName,
+    });
 
   return newForum as Forum[];
+};
+
+export const getMessages = async () => {
+  const displayMessages = await db
+    .select({
+      messageContent: messages.messageContent,
+      messageCreatorName: messages.messageCreatorName
+    })
+    .from(messages)
+    .limit(50);
+
+  return displayMessages as Message[];
+};
+
+export const sendMessage = async (messageContent: string, messageCreatorName: string, messageCreatorId: string) => {
+  await db
+    .insert(messages)
+    .values({
+      messageContent,
+      messageCreatorName,
+      messageCreatorId,
+    })
 }

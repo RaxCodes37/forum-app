@@ -1,6 +1,19 @@
-import ChatForm from "./home-chat/chat-form";
+"use client"
 
-export default function HomeChat() {
+import { Message } from "@/utils/utils";
+import ChatForm from "./home-chat/chat-form";
+import DisplayChat from "./home-chat/display-chat";
+import { useState } from "react";
+
+interface Props {
+  userName: string;
+  userId: string;
+}
+
+export default function HomeChat({userName, userId}: Props) {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
+
   return (
     <div
       id="container"
@@ -8,11 +21,9 @@ export default function HomeChat() {
     >
       <h2 className="my-5 text-2xl font-bold">Global Discussion Chat</h2>
 
-      <div className="bg-[#1d1c1c] border border-[#3f3b3b] rounded-md h-[80%] w-[85%] m-auto p-5">
-        Messages will be displayed here
-      </div>
+      <DisplayChat messages={messages} setMessages={setMessages}/>
 
-      <ChatForm />
+      <ChatForm newMessage={newMessage} setNewMessage={setNewMessage} userName={userName} userId={userId} messages={messages} setMessages={setMessages}/>
     </div>
   );
 }
