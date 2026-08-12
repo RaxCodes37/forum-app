@@ -37,7 +37,7 @@ export default function CreateForumForm({userName, userId}: Props) {
       <input type="text" className="w-full px-3 py-1 text-lg" placeholder="Forum Name" value={forumName} onChange={(e) => {setForumName(e.target.value)}} required/>
 
       <input type="text" placeholder="Forum Description (Optional)" className="w-full px-3 py-1 text-lg mt-3" value={forumDescription} onChange={(e) => {setForumDescription(e.target.value)}}/>
-      <button className="w-[50%] px-3 py-2 mt-3 mb-2" onClick={createForumFunction}>
+      <button className="w-[50%] px-3 py-2 mt-3" onClick={createForumFunction}>
         Create
       </button>
     </form>

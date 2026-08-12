@@ -17,7 +17,7 @@ export default function HomeChat({userName, userId}: Props) {
   return (
     <div
       id="container"
-      className="m-auto w-[30%] h-180 rounded-md mt-20 flex flex-col items-center"
+      className="m-auto w-[30%] h-180 rounded-md mt-20 flex flex-col items-center animate-fade-up animate-ease-in-out"
     >
       <h2 className="my-5 text-2xl font-bold">Global Discussion Chat</h2>
 

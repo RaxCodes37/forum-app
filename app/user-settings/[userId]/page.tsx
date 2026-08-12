@@ -6,13 +6,13 @@ type SettingsProps = {
 };
 
 export default async function Settings({ params }: SettingsProps) {
-  const userId = await params;
+  const userId = await params; //I will find this something useful to do
 
   return (
     <div className="flex justify-center">
       <div
         id="container"
-        className="w-80 text-center rounded-md mt-40 h-60 py-4"
+        className="w-80 text-center rounded-md mt-40 h-60 py-4 animate-fade-up animate-ease-in-out"
       >
         <header>
           <h2 className="text-2xl">Settings</h2>

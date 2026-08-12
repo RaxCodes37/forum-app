@@ -8,9 +8,9 @@ export default function SignUpPage() {
       <NavBar/>
 
       <div className="flex flex-col items-center mt-20">
-        <h1 className="text-2xl">Sign Up</h1>
+        <h1 className="text-2xl animate-fade-down animate-ease-in-out">Sign Up</h1>
 
-        <form action={signUpAction} className="flex flex-col gap-3 px-6 py-8 border rounded-md mt-5" id="container">
+        <form action={signUpAction} className="flex flex-col gap-3 px-6 py-8 border rounded-md mt-5 animate-fade-up animate-ease-in-out" id="container">
           <input type="text" name="name" placeholder="Name" required className="py-1"/>
           <input type="text" name="email" placeholder="Email" required className="py-1"/>
           <input type="password" name="password" placeholder="Password" required className="py-1"/>

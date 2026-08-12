@@ -15,13 +15,13 @@ export default async function HomeHeader() {
 
   return (
     <header className="flex mt-4">
-      <div className="flex justify-end items-end gap-5 w-[60%]">
+      <div className="flex justify-end items-end gap-5 w-[60%] animate-fade-down animate-ease-in-out">
         <NewForumButton></NewForumButton>
 
         <HeaderForm/>
       </div>
 
-      <div className="flex items-end justify-end w-[30%]">
+      <div className="flex items-end justify-end w-[30%] animate-fade-left animate-ease-in-out">
         <UserConfig userId={userId}/>
       </div>
     </header>
