@@ -21,7 +21,7 @@ export default function HomeChat({userName, userId}: Props) {
     >
       <h2 className="my-5 text-2xl font-bold">Global Discussion Chat</h2>
 
-      <DisplayChat messages={messages} setMessages={setMessages}/>
+      <DisplayChat messages={messages} setMessages={setMessages} userName={userName}/>
 
       <ChatForm newMessage={newMessage} setNewMessage={setNewMessage} userName={userName} userId={userId} messages={messages} setMessages={setMessages}/>
     </div>

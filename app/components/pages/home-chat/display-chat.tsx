@@ -6,16 +6,21 @@ import React, { useEffect } from "react";
 
 interface Props {
   messages: Message[];
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  userName: string;
 }
 
-export default function DisplayChat({messages, setMessages}: Props) {
+export default function DisplayChat({
+  messages,
+  setMessages,
+  userName,
+}: Props) {
   useEffect(() => {
     const fetchMessages = async () => {
       setMessages(await getMessages());
-    }
-    
-    fetchMessages()
+    };
+
+    fetchMessages();
   }, []);
 
   useEffect(() => {
@@ -26,16 +31,20 @@ export default function DisplayChat({messages, setMessages}: Props) {
     return () => {
       socket.off("message");
     };
-  }, [messages]); 
-  
+  }, [messages]);
+
   return (
     <div className="bg-[#1d1c1c] border border-[#3f3b3b] rounded-md h-[80%] w-[85%] m-auto p-5">
       {messages.map((message, index) => (
         <div className="flex flex-col" key={index}>
-          <p>{message.messageCreatorName}</p>
+          {message.messageCreatorName === userName ? (
+            <p className="text-[#8bb3e5]">{message.messageCreatorName} {"(you)"}</p>
+          ) : (
+            <p className="text-[#9696c7]">{message.messageCreatorName}</p>
+          )}
           <p>{message.messageContent}</p>
         </div>
       ))}
     </div>
-  )
+  );
 }
