@@ -37,6 +37,10 @@ export const createForum = async (
   return newForum as Forum[];
 };
 
+export const joinForum = async () => {
+  
+}
+
 export const getMessages = async () => {
   const displayMessages = await db
     .select({

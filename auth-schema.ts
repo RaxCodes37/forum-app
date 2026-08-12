@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index, varchar, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, varchar, uuid, integer } from "drizzle-orm/pg-core";
 
 export const posts = pgTable("posts", {
   postId: uuid("post_id").primaryKey().defaultRandom(),
@@ -14,7 +14,14 @@ export const forums = pgTable("forums", {
   forumDescription: varchar("forum_description", {length: 400}),
   forumCreatorName: varchar("creator_name").references(() => user.name).notNull(),
   forumCreatorId: varchar("creator_id").references(() => user.id).notNull(),
-  //To user count I need to add the forum_members table and I will do that later
+  userCount: integer("user_count").default(0)
+})
+
+export const forumMembers = pgTable("forum_members", {
+  membershipId: uuid("membership_id").defaultRandom().primaryKey(),
+  partOf: varchar("forum").references(() => forums.forumName),
+  memberName: text("member_name").references(() => user.name),
+  memberId: text("member_id").references(() => user.id),
 })
 
 export const replies = pgTable("replies", {
