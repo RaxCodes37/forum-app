@@ -53,3 +53,13 @@ button:hover {
   background-color: #562424;
   border-color: #ed8080;
 }
+
+.save-button{
+  background-color: #62a552;
+  border: 1px solid #78d062;
+}
+
+.save-button:hover{
+  background-color: #36592d;
+  border: 1px solid #92f47a;
+}

@@ -9,7 +9,7 @@ export default function BackHome() {
   return (
     <button
       onClick={goBackHome}
-      className="px-2 py-1 mt-5 w-30 flex justify-center items-center text-lg gap-2"
+      className="px-2 py-1 mt-5 w-50 flex justify-center items-center text-lg gap-2"
     >
       <IoArrowBackCircleOutline />
       Back
