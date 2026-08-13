@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.6.26",
+    "@uiw/color-convert": "^2.10.3",
+    "@uiw/react-color-wheel": "^2.10.3",
     "better-auth": "^1.6.26",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
@@ -35,5 +37,5 @@
     "tsx": "^4.23.11",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.20.0"
+  "packageManager": "pnpm@11.21.0"
 }
