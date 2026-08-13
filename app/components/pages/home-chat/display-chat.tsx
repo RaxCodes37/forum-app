@@ -1,23 +1,30 @@
 "use client";
 
 import { socket } from "@/lib/socket-client";
-import { getMessages, Message } from "@/utils/utils";
+import { getMessageColor, getMessages, Message } from "@/utils/utils";
 import React, { useEffect } from "react";
 
 interface Props {
   messages: Message[];
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  userMessageColor: string;
+  setUserMessageColor: React.Dispatch<React.SetStateAction<string>>;
   userName: string;
+  userId: string;
 }
 
 export default function DisplayChat({
   messages,
   setMessages,
+  userMessageColor,
+  setUserMessageColor,
   userName,
+  userId
 }: Props) {
   useEffect(() => {
     const fetchMessages = async () => {
       setMessages(await getMessages());
+      setUserMessageColor((await getMessageColor(userId)));
     };
 
     fetchMessages();
@@ -33,12 +40,16 @@ export default function DisplayChat({
     };
   }, [messages]);
 
+  console.log(userMessageColor);
+
+  const color = "#000";
+
   return (
     <div className="bg-[#1d1c1c] border border-[#3f3b3b] rounded-md h-[80%] w-[85%] m-auto p-5">
       {messages.map((message, index) => (
         <div className="flex flex-col" key={index}>
           {message.messageCreatorName === userName ? (
-            <p className="text-[#8bb3e5]">{message.messageCreatorName} {"(you)"}</p>
+            <p style={{ color: `${userMessageColor}` }}>{message.messageCreatorName} {"(you)"}</p>
           ) : (
             <p className="text-[#9696c7]">{message.messageCreatorName}</p>
           )}

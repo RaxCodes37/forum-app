@@ -13,6 +13,7 @@ interface Props {
 export default function HomeChat({userName, userId}: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [userMessageColor, setUserMessageColor] = useState<string>("");
 
   return (
     <div
@@ -21,7 +22,7 @@ export default function HomeChat({userName, userId}: Props) {
     >
       <h2 className="my-5 text-2xl font-bold">Global Discussion Chat</h2>
 
-      <DisplayChat messages={messages} setMessages={setMessages} userName={userName}/>
+      <DisplayChat messages={messages} setMessages={setMessages} userMessageColor={userMessageColor} setUserMessageColor={setUserMessageColor} userName={userName} userId={userId}/>
 
       <ChatForm newMessage={newMessage} setNewMessage={setNewMessage} userName={userName} userId={userId} messages={messages} setMessages={setMessages}/>
     </div>
