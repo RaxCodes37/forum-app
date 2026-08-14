@@ -11,8 +11,6 @@ export default async function HomeHeader() {
 
   if(!session) redirect("/sign-in");
 
-  const userId = session.user.id
-
   return (
     <header className="flex mt-4">
       <div className="flex justify-end items-end gap-5 w-[60%] animate-fade-down animate-ease-in-out">
@@ -22,7 +20,7 @@ export default async function HomeHeader() {
       </div>
 
       <div className="flex items-end justify-end w-[30%] animate-fade-left animate-ease-in-out">
-        <UserConfig userId={userId}/>
+        <UserConfig/>
       </div>
     </header>
   );
