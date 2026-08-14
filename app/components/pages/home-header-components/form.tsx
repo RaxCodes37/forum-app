@@ -1,13 +1,25 @@
 "use client";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import React, { useState } from "react"
+import { useRouter } from "next/navigation";
 
 export default function HeaderForm() {
-  return (
-    <form action="" className="flex gap-4">
-      <input type="text" placeholder="Search" className="h-10"/>
+  const [forumName, setForumName] = useState<string>("");
+  const router = useRouter();
 
-      <button className="px-4 h-10">
+  const goListForums = async (e:React.FormEvent) => {
+    e.preventDefault();
+
+    router.push(`/searched-forums/${forumName}`);
+    setForumName("")
+  }
+
+  return (
+    <form onSubmit={goListForums} className="flex gap-4">
+      <input type="text" placeholder="Search" className="h-10" value={forumName} onChange={(e) => {setForumName(e.target.value)}}/>
+
+      <button type="submit" className="px-4 h-10">
         <FaMagnifyingGlass />
       </button>
     </form>

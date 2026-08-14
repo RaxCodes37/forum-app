@@ -2,7 +2,7 @@
 
 import { db } from "@/app/src";
 import { forums, messages, user } from "@/auth-schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export interface Forum {
   forumName: string;
@@ -13,6 +13,13 @@ export interface Forum {
 export interface Message {
   messageContent: string;
   messageCreatorName: string;
+}
+
+export interface SearchedForum {
+  forumId: string;
+  forumName: string;
+  forumDescriptiom: string;
+  forumCreatorName: string;
 }
 
 export const createForum = async (
@@ -86,4 +93,20 @@ export const getMessageColor = async (userId: string) => {
     .where(eq(user.id, userId));
 
   return newSetColor[0].messageColor;
+};
+
+export const searchForum = async (forumName: string) => {
+  const searchedForums = await db
+    .select({
+      forumId: forums.forumId,
+      forumName: forums.forumName,
+      forumDescriptiom: forums.forumDescription,
+      forumCreatorName: forums.forumCreatorName,
+    })
+    .from(forums)
+    .where(
+      sql`to_tsvector(${forums.forumName}) @@ websearch_to_tsquery(${forumName})`,
+    );
+
+  return searchedForums as SearchedForum[];
 };
