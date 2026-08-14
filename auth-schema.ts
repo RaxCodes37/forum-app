@@ -1,50 +1,89 @@
-import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index, varchar, uuid, integer } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  varchar,
+  uuid,
+  integer,
+} from "drizzle-orm/pg-core";
 
 export const posts = pgTable("posts", {
   postId: uuid("post_id").primaryKey().defaultRandom(),
-  postContent: varchar("post_content", {length: 255}).notNull(),
-  postAuthorName: text("post_author_name").references(() => user.name).notNull(),
-  postAuthorId: text("post_author_id").references(() => user.id).notNull(),
-})
+  postContent: varchar("post_content", { length: 255 }).notNull(),
+  postAuthorName: text("post_author_name")
+    .references(() => user.name)
+    .notNull(),
+  postAuthorId: text("post_author_id")
+    .references(() => user.id)
+    .notNull(),
+});
 
-export const forums = pgTable("forums", {
-  forum_id: uuid("forum_id").primaryKey().defaultRandom(),
-  forumName: varchar("forum_name").unique().notNull(),
-  forumDescription: varchar("forum_description", {length: 400}),
-  forumCreatorName: varchar("creator_name").references(() => user.name).notNull(),
-  forumCreatorId: varchar("creator_id").references(() => user.id).notNull(),
-  userCount: integer("user_count").default(0)
-})
+export const forums = pgTable(
+  "forums",
+  {
+    forum_id: uuid("forum_id").primaryKey().defaultRandom(),
+    forumName: varchar("forum_name").unique().notNull(),
+    forumDescription: varchar("forum_description", { length: 400 }),
+    forumCreatorName: varchar("creator_name")
+      .references(() => user.name)
+      .notNull(),
+    forumCreatorId: varchar("creator_id")
+      .references(() => user.id)
+      .notNull(),
+    userCount: integer("user_count").default(0),
+  },
+  (table) => [
+    index("title_search_index").using(
+      "gin",
+      sql`to_tsvector('english',
+    ${table.forumName})`,
+    ),
+  ],
+);
 
 export const forumMembers = pgTable("forum_members", {
   membershipId: uuid("membership_id").defaultRandom().primaryKey(),
   partOf: varchar("forum").references(() => forums.forumName),
   memberName: text("member_name").references(() => user.name),
   memberId: text("member_id").references(() => user.id),
-})
+});
 
 export const replies = pgTable("replies", {
   replyId: uuid("reply_id").primaryKey().defaultRandom(),
-  replyContent: varchar("reply_content", {length: 255}).notNull(),
-  replyAuthorName: text("reply_author_name").references(() => user.name).notNull(),
-  replyAuthorId: text("reply_author_id").references(() => user.id).notNull(),
-  originalPost: uuid("original_post").references(() => posts.postId).notNull()
-})
+  replyContent: varchar("reply_content", { length: 255 }).notNull(),
+  replyAuthorName: text("reply_author_name")
+    .references(() => user.name)
+    .notNull(),
+  replyAuthorId: text("reply_author_id")
+    .references(() => user.id)
+    .notNull(),
+  originalPost: uuid("original_post")
+    .references(() => posts.postId)
+    .notNull(),
+});
 
 export const messages = pgTable("messages", {
   messageId: uuid("message_id").primaryKey().defaultRandom(),
   messageContent: varchar("message_content").notNull(),
-  messageCreatorName: varchar("creator_name").references(() => user.name).notNull(),
-  messageCreatorId: varchar("creator_id").references(() => user.id).notNull(),
-})
+  messageCreatorName: varchar("creator_name")
+    .references(() => user.name)
+    .notNull(),
+  messageCreatorId: varchar("creator_id")
+    .references(() => user.id)
+    .notNull(),
+});
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
-  messageColor: varchar("messageColor", { length: 10 }).notNull().default("#8BB3E5"),
+  messageColor: varchar("messageColor", { length: 10 })
+    .notNull()
+    .default("#8BB3E5"),
   image: text("image"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -117,7 +156,7 @@ export const userRelations = relations(user, ({ many }) => ({
   accounts: many(account),
   posts: many(posts),
   replies: many(replies),
-  messages: many(messages)
+  messages: many(messages),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -134,23 +173,23 @@ export const accountRelations = relations(account, ({ one }) => ({
   }),
 }));
 
-export const forumRelations = relations(forums, ({many}) => ({
+export const forumRelations = relations(forums, ({ many }) => ({
   members: many(user),
   posts: many(posts),
   replies: many(replies),
-}))
+}));
 
-export const postRelations = relations(posts, ({one, many}) => ({
+export const postRelations = relations(posts, ({ one, many }) => ({
   creator: one(user, {
     fields: [posts.postAuthorName, posts.postAuthorId],
     references: [user.name, user.id],
   }),
-  replies: many(replies)
-}))
+  replies: many(replies),
+}));
 
-export const repliesRelations = relations(replies, ({one}) => ({
+export const repliesRelations = relations(replies, ({ one }) => ({
   creator: one(user, {
     fields: [replies.replyAuthorName, replies.replyAuthorId],
     references: [user.name, user.id],
   }),
-}))
+}));
