@@ -24,7 +24,7 @@ export const posts = pgTable("posts", {
 export const forums = pgTable(
   "forums",
   {
-    forum_id: uuid("forum_id").primaryKey().defaultRandom(),
+    forumId: uuid("forum_id").primaryKey().defaultRandom(),
     forumName: varchar("forum_name").unique().notNull(),
     forumDescription: varchar("forum_description", { length: 400 }),
     forumCreatorName: varchar("creator_name")
