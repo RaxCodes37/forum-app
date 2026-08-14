@@ -17,8 +17,6 @@ export default function ListForums({forumName}: Props) {
     getForums();
   }, []);
 
-  console.log(searchedForums)
-
   return (
     <div>
       {searchedForums.map((forum) => (
