@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth";
 import HomeChat from "../components/pages/home-chat";
-import HomeHeader from "../components/pages/home-header";
+import HomeHeader from "../components/pages/home-chat/home-header";
 import SideBar from "../components/pages/navigation-bars/home-side-bar";
 import { redirect } from "next/navigation";
 

@@ -1,10 +1,10 @@
 "use server"
 
-import HeaderForm from "./home-header-components/form";
-import UserConfig from "./home-header-components/user-config";
+import HeaderForm from "../home-header-components/form";
+import UserConfig from "../home-header-components/user-config";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import NewForumButton from "./home-header-components/new-forum-button";
+import NewForumButton from "../home-header-components/new-forum-button";
 
 export default async function HomeHeader() {
   const session = await getSession();
