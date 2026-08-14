@@ -40,10 +40,6 @@ export default function DisplayChat({
     };
   }, [messages]);
 
-  console.log(userMessageColor);
-
-  const color = "#000";
-
   return (
     <div className="bg-[#1d1c1c] border border-[#3f3b3b] rounded-md h-[80%] w-[85%] m-auto p-5">
       {messages.map((message, index) => (
