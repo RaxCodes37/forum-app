@@ -15,7 +15,7 @@ export default function JoinForumButton({forumName, newMemberName, newMemberId}:
     e.preventDefault();
 
     await joinForum(forumName, newMemberName, newMemberId);
-    router.push(`/forum/${forumName}`)
+    router.push(`/forum/${encodeURIComponent(forumName)}`);
   }
 
   return (

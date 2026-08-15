@@ -11,7 +11,8 @@ export default function HeaderForm() {
   const goListForums = async (e:React.FormEvent) => {
     e.preventDefault();
 
-    router.push(`/searched-forums/${forumName}`);
+    if (!forumName.trim()) return;
+    router.push(`/searched-forums?q=${encodeURIComponent(forumName)}`);
     setForumName("")
   }
 

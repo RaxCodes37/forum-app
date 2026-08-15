@@ -3,12 +3,13 @@ import ListForums from "@/app/components/pages/list-forums-components/list-forum
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-type ListForumsParams = {
-  params: Promise<{ forumName: string }>;
+type SearchedForumsParams = {
+  searchParams: Promise<{ q?: string }>;
 };
 
-export default async function ListSearchedForums({ params }: ListForumsParams) {
-  const { forumName } = await params;
+export default async function ListSearchedForums({ searchParams }: SearchedForumsParams) {
+  const { q } = await searchParams;
+  const forumName = q ?? "";
   const session = await getSession();
   
   if(!session) redirect("/sign-in");
