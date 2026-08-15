@@ -1,5 +1,5 @@
 import { joinForum } from '@/utils/utils';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 interface Props {
@@ -9,10 +9,13 @@ interface Props {
 }
 
 export default function JoinForumButton({forumName, newMemberName, newMemberId}: Props) {
+  const router = useRouter();
+
   const joinForumFunction = async (e: React.FormEvent) => {
     e.preventDefault();
 
     await joinForum(forumName, newMemberName, newMemberId);
+    router.push(`/forum/${forumName}`)
   }
 
   return (
