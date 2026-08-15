@@ -1,13 +1,14 @@
 "use server";
 
 import { db } from "@/app/src";
-import { forums, messages, user } from "@/auth-schema";
-import { eq, sql } from "drizzle-orm";
+import { forumMembers, forums, messages, user } from "@/auth-schema";
+import { and, eq, sql } from "drizzle-orm";
 
 export interface Forum {
   forumName: string;
   forumDescription: string;
   forumCreatorName: string;
+  forumUserCount: number;
 }
 
 export interface Message {
@@ -28,24 +29,61 @@ export const createForum = async (
   forumCreatorId: string,
   forumCreatorName: string,
 ) => {
-  const newForum = await db
-    .insert(forums)
-    .values({
-      forumName,
-      forumDescription,
-      forumCreatorId,
-      forumCreatorName,
+  await db.insert(forums).values({
+    forumName,
+    forumDescription,
+    forumCreatorId,
+    forumCreatorName,
+  });
+
+  await db.insert(forumMembers).values({
+    partOf: forumName,
+    memberName: forumCreatorName,
+    memberId: forumCreatorId,
+  });
+};
+
+export const joinForum = async (
+  forumJoining: string,
+  newMemberName: string,
+  newMemberId: string,
+) => {
+  const joinedAlready = await db.select({
+    partOf: forumMembers.memberName,
+    newMemberName: forumMembers,
+  })
+  .from(forumMembers)
+  .where((eq(forumMembers.partOf, forumJoining)));
+
+  if(joinedAlready.length > 0) return;
+  
+  await db.insert(forumMembers).values({
+    partOf: forumJoining,
+    memberName: newMemberName,
+    memberId: newMemberId,
+  });
+
+  await db
+    .update(forums)
+    .set({
+      userCount: +1,
     })
-    .returning({
+    .where(eq(forums.forumName, forumJoining));
+};
+
+export const getForum = async (forumName: string) => {
+  const forum = await db
+    .select({
       forumName: forums.forumName,
       forumDescription: forums.forumDescription,
       forumCreatorName: forums.forumCreatorName,
-    });
+      forumUserCount: forums.userCount,
+    })
+    .from(forums)
+    .where(eq(forums.forumName, forumName));
 
-  return newForum as Forum[];
+  return forum as Forum[];
 };
-
-export const joinForum = async () => {};
 
 export const getMessages = async () => {
   const displayMessages = await db
