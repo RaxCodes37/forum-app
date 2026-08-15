@@ -1,7 +1,0 @@
-export default function ForumPage() {
-  return (
-    <div>
-      
-    </div>
-  )
-}
