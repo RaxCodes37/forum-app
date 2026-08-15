@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default function ViewForumButton({forumName}: Props) {
-  const goViewForum = async () => redirect(`/foum/${forumName}`); //Not working yet
+  const goViewForum = async () => redirect(`/forum/${forumName}`);
 
   return (
     <button className='px-3 py-2' onClick={goViewForum}>
