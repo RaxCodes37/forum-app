@@ -1,9 +1,7 @@
 "use client";
 
 import { socket } from "@/lib/socket-client";
-import { createForum, Forum } from "@/utils/utils";
-import { username } from "better-auth/plugins";
-import { redirect } from "next/navigation";
+import { createForum } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
 
 interface Props {
