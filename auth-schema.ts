@@ -51,6 +51,20 @@ export const forumMembers = pgTable("forum_members", {
   memberId: text("member_id").references(() => user.id),
 });
 
+export const comments = pgTable("comments", {
+  commentId: uuid("comment_id").primaryKey().defaultRandom(),
+  commentContent: varchar("comment_content", { length: 255 }).notNull(),
+  commentAuthorName: text("comment_author_name")
+    .references(() => user.name)
+    .notNull(),
+  commentAuthorId: text("comment_author_id")
+    .references(() => user.id)
+    .notNull(),
+  originalPost: uuid("original_post")
+    .references(() => posts.postId)
+    .notNull(),
+});
+
 export const replies = pgTable("replies", {
   replyId: uuid("reply_id").primaryKey().defaultRandom(),
   replyContent: varchar("reply_content", { length: 255 }).notNull(),
@@ -62,6 +76,9 @@ export const replies = pgTable("replies", {
     .notNull(),
   originalPost: uuid("original_post")
     .references(() => posts.postId)
+    .notNull(),
+  originalComment: uuid("original_comment")
+    .references(() => comments.commentId)
     .notNull(),
 });
 
