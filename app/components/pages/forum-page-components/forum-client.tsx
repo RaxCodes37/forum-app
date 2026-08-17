@@ -2,26 +2,34 @@
 
 import { Forum, getForum } from "@/utils/utils";
 import { useEffect, useState } from "react";
-import ForumContent from "./forum-content";
+import ForumHeader from "./forum-header";
+import ForumPosts from "./forum-posts";
 
 interface Props {
-  forumName: string
+  forumName: string;
 }
 
-export default function ForumClient({forumName}: Props) {
-  const [forum, setForum] = useState<Forum[]>([])
+export default function ForumClient({ forumName }: Props) {
+  const [forum, setForum] = useState<Forum[]>([]);
 
   useEffect(() => {
     const getForumInfo = async () => {
-      setForum(await getForum(forumName))
-    }
+      setForum(await getForum(forumName));
+    };
 
-    getForumInfo()
-  }, [])
-  
+    getForumInfo();
+  }, []);
+
   return (
     <div className="flex justify-center">
-      <ForumContent forumInfo={forum}/>
-    </div> 
-  )
+      <div
+        id="container"
+        className="w-150 text-center rounded-md min-h-screen h-fit"
+      >
+        <ForumHeader forumInfo={forum} />
+
+        <ForumPosts />
+      </div>
+    </div>
+  );
 }
