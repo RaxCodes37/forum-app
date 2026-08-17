@@ -2,7 +2,7 @@
 
 import { db } from "@/app/src";
 import { forumMembers, forums, messages, posts, user } from "@/auth-schema";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 
 //Interfaces/structs
 
@@ -66,7 +66,7 @@ export const joinForum = async (
       newMemberName: forumMembers,
     })
     .from(forumMembers)
-    .where(eq(forumMembers.partOf, forumJoining));
+    .where(and(eq(forumMembers.partOf, forumJoining), eq(forumMembers.memberId, newMemberId)));
 
   if (joinedAlready.length > 0) return;
 
@@ -79,7 +79,7 @@ export const joinForum = async (
   await db
     .update(forums)
     .set({
-      userCount: +1,
+      userCount: sql`${forums.userCount} + 1`,
     })
     .where(eq(forums.forumName, forumJoining));
 };
