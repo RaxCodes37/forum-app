@@ -39,6 +39,7 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
             userName={userName}
             userId={userId}
           />
+          <hr className="text-[#8e8c8c]"/>
         </div>
       ))}
     </div>
