@@ -1,0 +1,2 @@
+ALTER TABLE "posts" ADD COLUMN "forum_post_was_posted" varchar NOT NULL;--> statement-breakpoint
+ALTER TABLE "posts" ADD CONSTRAINT "posts_forum_post_was_posted_forums_forum_name_fk" FOREIGN KEY ("forum_post_was_posted") REFERENCES "public"."forums"("forum_name") ON DELETE no action ON UPDATE no action;
