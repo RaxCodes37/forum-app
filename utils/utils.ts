@@ -80,7 +80,7 @@ export const getForum = async (forumName: string) => {
       forumUserCount: forums.userCount,
     })
     .from(forums)
-    .where(eq(forums.forumName, forumName));
+    .where(eq(forums.forumName, forumName)); //Forum Name is unique so no need for id
 
   return forum as Forum[];
 };

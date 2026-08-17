@@ -11,8 +11,6 @@ interface Props {
 export default function ForumClient({forumName}: Props) {
   const [forum, setForum] = useState<Forum[]>([])
 
-  console.log(forumName)
-
   useEffect(() => {
     const getForumInfo = async () => {
       setForum(await getForum(forumName))
@@ -23,7 +21,7 @@ export default function ForumClient({forumName}: Props) {
   
   return (
     <div className="flex justify-center">
-      <ForumContent/>
+      <ForumContent forumInfo={forum}/>
     </div> 
   )
 }
