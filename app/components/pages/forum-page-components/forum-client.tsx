@@ -1,6 +1,6 @@
 "use client";
 
-import { Forum, getForum } from "@/utils/utils";
+import { Forum, getForum, getPosts, Posts } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import ForumHeader from "./forum-header";
 import ForumPosts from "./forum-posts";
@@ -11,10 +11,12 @@ interface Props {
 
 export default function ForumClient({ forumName }: Props) {
   const [forum, setForum] = useState<Forum[]>([]);
+  const [posts, setPosts] = useState<Posts[]>([])
 
   useEffect(() => {
     const getForumInfo = async () => {
       setForum(await getForum(forumName));
+      setPosts(await getPosts(forumName));
     };
 
     getForumInfo();
@@ -28,7 +30,7 @@ export default function ForumClient({ forumName }: Props) {
       >
         <ForumHeader forumInfo={forum} />
 
-        <ForumPosts />
+        <ForumPosts posts={posts}/>
       </div>
     </div>
   );
