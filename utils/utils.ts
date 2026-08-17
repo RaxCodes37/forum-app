@@ -132,6 +132,18 @@ export const getForum = async (forumName: string) => {
   return forum as Forum[];
 };
 
+export const editForumDescription = async (
+  forumName: string,
+  newDescription: string,
+) => {
+  await db
+    .update(forums)
+    .set({
+      forumDescription: newDescription,
+    })
+    .where(eq(forums.forumName, forumName));
+};
+
 //Global Chat related actions
 
 export const getMessages = async () => {
@@ -213,6 +225,10 @@ export const getSpecificPost = async (postId: string) => {
   return post as Posts[];
 };
 
+export const deletePost = async (postId: string) => {
+  await db.delete(posts).where(eq(posts.postId, postId));
+};
+
 //Comment related actions
 
 export const createComment = async (
@@ -236,4 +252,8 @@ export const getComments = async (originalPost: string) => {
     .where(eq(comments.originalPost, originalPost));
 
   return postComments as Comments[];
+};
+
+export const deleteComment = async (commentId: string) => {
+  await db.delete(comments).where(eq(comments.commentId, commentId));
 };
