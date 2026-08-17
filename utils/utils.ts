@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/app/src";
-import { forumMembers, forums, messages, user } from "@/auth-schema";
+import { forumMembers, forums, messages, posts, user } from "@/auth-schema";
 import { and, eq, sql } from "drizzle-orm";
 
 export interface Forum {
@@ -48,15 +48,16 @@ export const joinForum = async (
   newMemberName: string,
   newMemberId: string,
 ) => {
-  const joinedAlready = await db.select({
-    partOf: forumMembers.memberName,
-    newMemberName: forumMembers,
-  })
-  .from(forumMembers)
-  .where((eq(forumMembers.partOf, forumJoining)));
+  const joinedAlready = await db
+    .select({
+      partOf: forumMembers.memberName,
+      newMemberName: forumMembers,
+    })
+    .from(forumMembers)
+    .where(eq(forumMembers.partOf, forumJoining));
 
-  if(joinedAlready.length > 0) return;
-  
+  if (joinedAlready.length > 0) return;
+
   await db.insert(forumMembers).values({
     partOf: forumJoining,
     memberName: newMemberName,
@@ -69,6 +70,22 @@ export const joinForum = async (
       userCount: +1,
     })
     .where(eq(forums.forumName, forumJoining));
+};
+
+export const searchForum = async (forumName: string) => {
+  const searchedForums = await db
+    .select({
+      forumId: forums.forumId,
+      forumName: forums.forumName,
+      forumDescriptiom: forums.forumDescription,
+      forumCreatorName: forums.forumCreatorName,
+    })
+    .from(forums)
+    .where(
+      sql`to_tsvector(${forums.forumName}) @@ websearch_to_tsquery(${forumName})`,
+    );
+
+  return searchedForums as SearchedForum[];
 };
 
 export const getForum = async (forumName: string) => {
@@ -84,6 +101,8 @@ export const getForum = async (forumName: string) => {
 
   return forum as Forum[];
 };
+
+//Global Chat related actions
 
 export const getMessages = async () => {
   const displayMessages = await db
@@ -133,18 +152,22 @@ export const getMessageColor = async (userId: string) => {
   return newSetColor[0].messageColor;
 };
 
-export const searchForum = async (forumName: string) => {
-  const searchedForums = await db
-    .select({
-      forumId: forums.forumId,
-      forumName: forums.forumName,
-      forumDescriptiom: forums.forumDescription,
-      forumCreatorName: forums.forumCreatorName,
-    })
-    .from(forums)
-    .where(
-      sql`to_tsvector(${forums.forumName}) @@ websearch_to_tsquery(${forumName})`,
-    );
+//Post related actions
 
-  return searchedForums as SearchedForum[];
+export const createPost = async (
+  postContent: string,
+  postAuthorName: string,
+  postAuthorId: string,
+  postedOn: string,
+) => {
+  await db.insert(posts).values({
+    postContent,
+    postAuthorName,
+    postAuthorId,
+    postedOn,
+  });
+};
+
+export const getPosts = async (postedOn: string) => {
+  await db.select().from(posts).where(eq(posts.postedOn, postedOn));
 };
