@@ -1,7 +1,14 @@
 "use server";
 
 import { db } from "@/app/src";
-import { forumMembers, forums, messages, posts, user } from "@/auth-schema";
+import {
+  comments,
+  forumMembers,
+  forums,
+  messages,
+  posts,
+  user,
+} from "@/auth-schema";
 import { and, eq, sql } from "drizzle-orm";
 
 //Interfaces/structs
@@ -29,8 +36,14 @@ export interface Posts {
   postId: string;
   postContent: string;
   postAuthorName: string;
-  postAuthorId: string;
   postedOn: string;
+}
+
+export interface Comments {
+  commentId: string;
+  commentContent: string;
+  commentAuthorName: string;
+  originalPost: string;
 }
 
 //Forum related actions
@@ -66,7 +79,12 @@ export const joinForum = async (
       newMemberName: forumMembers,
     })
     .from(forumMembers)
-    .where(and(eq(forumMembers.partOf, forumJoining), eq(forumMembers.memberId, newMemberId)));
+    .where(
+      and(
+        eq(forumMembers.partOf, forumJoining),
+        eq(forumMembers.memberId, newMemberId),
+      ),
+    );
 
   if (joinedAlready.length > 0) return;
 
@@ -187,4 +205,35 @@ export const getPosts = async (postedOn: string) => {
     .where(eq(posts.postedOn, postedOn));
 
   return forumPosts as Posts[];
+};
+
+export const getSpecificPost = async (postId: string) => {
+  const post = await db.select().from(posts).where(eq(posts.postId, postId));
+
+  return post as Posts[];
+};
+
+//Comment related actions
+
+export const createComment = async (
+  commentContent: string,
+  commentAuthorName: string,
+  commentAuthorId: string,
+  originalPost: string,
+) => {
+  await db.insert(comments).values({
+    commentContent,
+    commentAuthorName,
+    commentAuthorId,
+    originalPost,
+  });
+};
+
+export const getComments = async (originalPost: string) => {
+  const postComments = await db
+    .select()
+    .from(comments)
+    .where(eq(comments.originalPost, originalPost));
+
+  return postComments as Comments[];
 };
