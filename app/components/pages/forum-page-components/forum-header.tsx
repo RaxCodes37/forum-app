@@ -1,5 +1,4 @@
 import { Forum } from "@/utils/utils";
-import React from "react";
 
 interface Props {
   forumInfo: Forum[];

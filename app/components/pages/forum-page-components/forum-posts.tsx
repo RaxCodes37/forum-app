@@ -9,8 +9,8 @@ export default function ForumPosts({ posts }: Props) {
   return (
     <div>
       {posts.map((post) => (
-        <div>
-          <div key={post.postId} className="text-left px-5">
+        <div key={post.postId}>
+          <div className="text-left px-5">
             <p className="text-[#8e8c8c] text-lg">{post.postAuthorName}</p>
             <p>{post.postContent}</p>
 
