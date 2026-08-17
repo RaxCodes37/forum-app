@@ -2,6 +2,7 @@
 
 import { Forum, getForum } from "@/utils/utils";
 import { useEffect, useState } from "react";
+import ForumContent from "./forum-content";
 
 interface Props {
   forumName: string
@@ -21,8 +22,8 @@ export default function ForumClient({forumName}: Props) {
   }, [])
   
   return (
-    <div>
-    
-    </div>
+    <div className="flex justify-center">
+      <ForumContent/>
+    </div> 
   )
 }
