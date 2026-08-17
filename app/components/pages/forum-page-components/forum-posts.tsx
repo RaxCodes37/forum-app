@@ -11,7 +11,8 @@ interface Props {
 export default function ForumPosts({ posts }: Props) {
   const router = useRouter();
 
-  const goToPostComments = (postId: string) => router.push(`/post/comments/${encodeURIComponent(postId)}`);
+  const goToPostComments = (postId: string) =>
+    router.push(`/post/comments/${encodeURIComponent(postId)}`);
 
   return (
     <div>
@@ -22,13 +23,16 @@ export default function ForumPosts({ posts }: Props) {
             <p>{post.postContent}</p>
 
             <div className="flex mt-3">
-              <button className="p-1" onClick={() => goToPostComments(post.postId)}>
-                <FaComment/>
+              <button
+                className="p-1"
+                onClick={() => goToPostComments(post.postId)}
+              >
+                <FaComment />
               </button>
             </div>
           </div>
 
-          <hr className="mt-5 text-[#8e8c8c]"/>
+          <hr className="mt-5 text-[#8e8c8c]" />
         </div>
       ))}
     </div>
