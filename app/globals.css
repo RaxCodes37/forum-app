@@ -63,3 +63,16 @@ button:hover {
   background-color: #36592d;
   border: 1px solid #92f47a;
 }
+
+.forum-post-form{
+  background-color: var(--elements-bg);
+  height: 60px;
+}
+
+.forum-post-form input{
+  border: none;
+  border-radius: 0px;
+  width: 100%;
+  min-height: 50px;
+  height: fit-content;
+}

@@ -8,9 +8,11 @@ import { socket } from "@/lib/socket-client";
 
 interface Props {
   forumName: string;
+  userName: string;
+  userId: string;
 }
 
-export default function ForumClient({ forumName }: Props) {
+export default function ForumClient({ forumName, userName, userId }: Props) {
   const [forum, setForum] = useState<Forum[]>([]);
   const [posts, setPosts] = useState<Posts[]>([]);
 
@@ -31,9 +33,9 @@ export default function ForumClient({ forumName }: Props) {
         id="container"
         className="w-150 text-center rounded-md min-h-screen h-fit"
       >
-        <ForumHeader forumInfo={forum} />
+        <ForumHeader forumInfo={forum} userName={userName} userId={userId} />
 
-        <ForumPosts posts={posts}/>
+        <ForumPosts posts={posts} />
       </div>
     </div>
   );
