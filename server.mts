@@ -14,6 +14,9 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
+    socket.on("join-forum", ({ forumName }) => {
+      socket.join(forumName) //Will be using the forum name as the id as it is unique
+    })
     socket.on(
       "forum-created",
       ({ forumName, userName }) => {

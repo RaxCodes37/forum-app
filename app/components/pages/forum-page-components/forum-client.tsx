@@ -4,6 +4,7 @@ import { Forum, getForum, getPosts, Posts } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import ForumHeader from "./forum-header";
 import ForumPosts from "./forum-posts";
+import { socket } from "@/lib/socket-client";
 
 interface Props {
   forumName: string;
@@ -11,9 +12,11 @@ interface Props {
 
 export default function ForumClient({ forumName }: Props) {
   const [forum, setForum] = useState<Forum[]>([]);
-  const [posts, setPosts] = useState<Posts[]>([])
+  const [posts, setPosts] = useState<Posts[]>([]);
 
   useEffect(() => {
+    socket.emit("join-forum", { forumName });
+
     const getForumInfo = async () => {
       setForum(await getForum(forumName));
       setPosts(await getPosts(forumName));
