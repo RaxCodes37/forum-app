@@ -33,7 +33,7 @@ export default function PostClientComponent({ postId, userName, userId }: Props)
         <NewCommentForm postId={postId} userName={userName} userId={userId}/>
         <hr className="text-[#8e8c8c]"/>
 
-        <CommentDisplay comments={comments} />
+        <CommentDisplay comments={comments} setComments={setComments} userName={userName}/>
       </div>
     </div>
   );
