@@ -1,4 +1,7 @@
+"use client";
+
 import { Posts } from "@/utils/utils";
+import { useRouter } from "next/navigation";
 import { FaComment } from "react-icons/fa6";
 
 interface Props {
@@ -6,6 +9,10 @@ interface Props {
 }
 
 export default function ForumPosts({ posts }: Props) {
+  const router = useRouter();
+
+  const goToPostComments = (postId: string) => router.push(`/post/comments/${encodeURIComponent(postId)}`);
+
   return (
     <div>
       {posts.map((post) => (
@@ -15,7 +22,7 @@ export default function ForumPosts({ posts }: Props) {
             <p>{post.postContent}</p>
 
             <div className="flex mt-3">
-              <button className="p-1">
+              <button className="p-1" onClick={() => goToPostComments(post.postId)}>
                 <FaComment/>
               </button>
             </div>

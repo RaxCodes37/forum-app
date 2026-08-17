@@ -75,4 +75,5 @@ button:hover {
   width: 100%;
   min-height: 50px;
   height: fit-content;
+  padding-inline: 20px;
 }
