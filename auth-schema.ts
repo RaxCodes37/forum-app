@@ -13,6 +13,7 @@ import {
 export const posts = pgTable("posts", {
   postId: uuid("post_id").primaryKey().defaultRandom(),
   postContent: varchar("post_content", { length: 255 }).notNull(),
+  postedOn: varchar("forum_post_was_posted").references(() => forums.forumName).notNull(),
   postAuthorName: text("post_author_name")
     .references(() => user.name)
     .notNull(),
