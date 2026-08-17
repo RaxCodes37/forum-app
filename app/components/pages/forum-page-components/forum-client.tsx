@@ -35,7 +35,7 @@ export default function ForumClient({ forumName, userName, userId }: Props) {
       >
         <ForumHeader forumInfo={forum} userName={userName} userId={userId} />
 
-        <ForumPosts posts={posts} />
+        <ForumPosts posts={posts} setPosts={setPosts} userName={userName} />
       </div>
     </div>
   );

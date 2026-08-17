@@ -1,5 +1,6 @@
 import { Forum } from "@/utils/utils";
 import NewPostForm from "./new-post-form";
+import { FiEdit } from "react-icons/fi";
 
 interface Props {
   forumInfo: Forum[];
@@ -11,12 +12,26 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
   return (
     <div>
       {forumInfo.map((forum) => (
-        <div key={forum.forumName} className="py-5">
+        <div key={forum.forumName} className="pt-5">
           <h2 className="text-2xl font-bold">{forum.forumName}</h2>
           {forum.forumDescription === "" ? (
-            <p className="italic text-[#8e8c8c] mt-2">
-              This forum hasn't been given a description yet
-            </p>
+            <div>
+              {forum.forumCreatorName === userName ? (
+                <div className="flex">
+                  <p className="italic text-[#8e8c8c] mt-2">
+                    This forum hasn't been given a description yet
+                  </p>
+
+                  <button className="w-100">
+                    <FiEdit />
+                  </button>
+                </div>
+              ) : (
+                <p className="italic text-[#8e8c8c] mt-2">
+                  This forum hasn't been given a description yet
+                </p>
+              )}
+            </div>
           ) : (
             <p className="mt-2 text-[#8e8c8c]">{forum.forumDescription}</p>
           )}
@@ -39,7 +54,7 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
             userName={userName}
             userId={userId}
           />
-          <hr className="text-[#8e8c8c]"/>
+          <hr className="text-[#8e8c8c]" />
         </div>
       ))}
     </div>
