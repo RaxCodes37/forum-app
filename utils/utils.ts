@@ -2,7 +2,9 @@
 
 import { db } from "@/app/src";
 import { forumMembers, forums, messages, posts, user } from "@/auth-schema";
-import { and, eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
+
+//Interfaces/structs
 
 export interface Forum {
   forumName: string;
@@ -22,6 +24,16 @@ export interface SearchedForum {
   forumDescriptiom: string;
   forumCreatorName: string;
 }
+
+export interface Posts {
+  postId: string;
+  postContent: string;
+  postAuthorName: string;
+  postAuthorId: string;
+  postedOn: string;
+}
+
+//Forum related actions
 
 export const createForum = async (
   forumName: string,
@@ -169,5 +181,10 @@ export const createPost = async (
 };
 
 export const getPosts = async (postedOn: string) => {
-  await db.select().from(posts).where(eq(posts.postedOn, postedOn));
+  const forumPosts = await db
+    .select()
+    .from(posts)
+    .where(eq(posts.postedOn, postedOn));
+
+  return forumPosts as Posts[];
 };
