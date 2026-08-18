@@ -46,6 +46,10 @@ export interface Comments {
   originalPost: string;
 }
 
+export interface SidebarForums {
+  partOf: string;
+}
+
 //Forum related actions
 
 export const createForum = async (
@@ -130,6 +134,17 @@ export const getForum = async (forumName: string) => {
     .where(eq(forums.forumName, forumName)); //Forum Name is unique so no need for id
 
   return forum as Forum[];
+};
+
+export const getJoinedForums = async (userId: string) => {
+  const forumsUserIsAPartOf = await db
+    .select({
+      partOf: forumMembers.partOf,
+    })
+    .from(forumMembers)
+    .where(eq(forumMembers.memberId, userId));
+
+  return forumsUserIsAPartOf as SidebarForums[];
 };
 
 export const editForumDescription = async (

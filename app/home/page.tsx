@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <div>
-      <SideBar/>
+      <SideBar userId={userId}/>
       <HomeHeader/>
       <HomeChat userName={userName} userId={userId}/>
     </div>
