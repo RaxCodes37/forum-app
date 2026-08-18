@@ -48,7 +48,7 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
           {forum.forumDescription === "" ? (
             <div>
               {forum.forumCreatorName === userName ? (
-                <div className="flex">
+                <div className="flex justify-center">
                   <p className="italic text-[#8e8c8c] mt-2">
                     This forum hasn't been given a description yet
                   </p>
