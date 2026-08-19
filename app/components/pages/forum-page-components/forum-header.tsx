@@ -4,6 +4,8 @@ import { FiEdit } from "react-icons/fi";
 import { useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 interface Props {
   forumInfo: Forum[];
@@ -15,6 +17,7 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
   const [showEditButton, setShowEditButton] = useState<string>("block");
   const [showEditForm, setShowEditForm] = useState<string>("hidden");
   const [newDescription, setNewDescription] = useState<string>("");
+  const router = useRouter();
 
   const showOrHideEdit = () => {
     if (showEditButton === "block") {
@@ -39,7 +42,17 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
   return (
     <div>
       {forumInfo.map((forum) => (
-        <div key={forum.forumName} className="pt-5">
+        <div key={forum.forumName} className="">
+          <div className="flex justify-end">
+            <button
+              onClick={() => router.back()}
+              className="px-2 py-1 w-20 mr-2 mt-2 flex justify-center items-center text-lg gap-2"
+            >
+              <IoArrowBackCircleOutline />
+              Back
+            </button>
+          </div>
+
           <h2 className="text-2xl font-bold">{forum.forumName}</h2>
           {forum.forumDescription === "" ? (
             <div>
