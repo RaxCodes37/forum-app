@@ -4,7 +4,6 @@ import { FiEdit } from "react-icons/fi";
 import { useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
-import e from "cors";
 
 interface Props {
   forumInfo: Forum[];
@@ -21,8 +20,7 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
     if (showEditButton === "block") {
       setShowEditButton("hidden");
       setShowEditForm("block");
-    }
-    else {
+    } else {
       setShowEditForm("hidden");
       setShowEditButton("block");
     }
@@ -31,14 +29,12 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
   const editDescriptionFunction = async (forumName: string) => {
     event?.preventDefault();
 
-    if(newDescription.trim() !== ""){
+    if (newDescription.trim() !== "") {
       await editForumDescription(forumName, newDescription);
 
-      setNewDescription("");
-      setShowEditForm("hidden");
-      setShowEditButton("block");
+      location.reload();
     }
-  }
+  };
 
   return (
     <div>
@@ -77,19 +73,27 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
                   <div
                     className={`flex justify-center items-end gap-2 ${showEditForm}`}
                   >
-                    <form className="mt-4 flex justify-center gap-2" onSubmit={() => editDescriptionFunction(forum.forumName)}>
+                    <form
+                      className="mt-4 flex justify-center gap-2"
+                      onSubmit={() => editDescriptionFunction(forum.forumName)}
+                    >
                       <input
                         type="text"
                         placeholder={`${forum.forumDescription}`}
                         value={newDescription}
-                        onChange={(e) => {setNewDescription(e.target.value)}}
+                        onChange={(e) => {
+                          setNewDescription(e.target.value);
+                        }}
                       />
                       <button type="submit" className="p-2">
                         <FaArrowUp />
                       </button>
                     </form>
 
-                    <button className="p-2 danger-button" onClick={showOrHideEdit}>
+                    <button
+                      className="p-2 danger-button"
+                      onClick={showOrHideEdit}
+                    >
                       <FaX />
                     </button>
                   </div>
