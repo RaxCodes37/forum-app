@@ -1,4 +1,4 @@
-import { editForumDescription, Forum } from "@/utils/utils";
+import { editForumDescription, Forum, leaveForum } from "@/utils/utils";
 import NewPostForm from "./new-post-form";
 import { FiEdit } from "react-icons/fi";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import { CiLogout } from "react-icons/ci";
 
 interface Props {
   forumInfo: Forum[];
@@ -39,6 +40,11 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
     }
   };
 
+  const leaveForumFunction = async (forumName: string) => {
+    await leaveForum(forumName, userId)
+    router.push(`/home`)
+  }
+
   return (
     <div>
       {forumInfo.map((forum) => (
@@ -46,10 +52,18 @@ export default function ForumHeader({ forumInfo, userName, userId }: Props) {
           <div className="flex justify-end">
             <button
               onClick={() => router.back()}
-              className="px-2 py-1 w-20 mr-2 mt-2 flex justify-center items-center text-lg gap-2"
+              className="px-2 py-1 w-25 mr-2 mt-2 flex justify-center items-center text-lg gap-2"
             >
               <IoArrowBackCircleOutline />
               Back
+            </button>
+
+            <button
+              onClick={() => leaveForumFunction(forum.forumName)}
+              className="px-2 py-1 w-25 mr-2 mt-2 flex justify-center items-center text-lg gap-2 danger-button"
+            >
+              <CiLogout />
+              Leave
             </button>
           </div>
 

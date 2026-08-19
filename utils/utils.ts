@@ -106,6 +106,17 @@ export const joinForum = async (
     .where(eq(forums.forumName, forumJoining));
 };
 
+export const leaveForum = async (forumName: string, memberId: string) => {
+  await db
+    .delete(forumMembers)
+    .where(
+      and(
+        eq(forumMembers.partOf, forumName),
+        eq(forumMembers.memberId, memberId),
+      ),
+    );
+};
+
 export const searchForum = async (forumName: string) => {
   const searchedForums = await db
     .select({
