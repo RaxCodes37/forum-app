@@ -75,9 +75,6 @@ export const replies = pgTable("replies", {
   replyAuthorId: text("reply_author_id")
     .references(() => user.id)
     .notNull(),
-  originalPost: uuid("original_post")
-    .references(() => posts.postId)
-    .notNull(),
   originalComment: uuid("original_comment")
     .references(() => comments.commentId)
     .notNull(),
