@@ -107,6 +107,17 @@ export const joinForum = async (
 };
 
 export const leaveForum = async (forumName: string, memberId: string) => {
+  const userExists = await db.select({
+    memberId: forumMembers 
+  }).from(forumMembers).where(eq(forumMembers.memberId, memberId));
+
+  if(userExists.length === 0) return;
+  
+  await db
+    .update(forums)
+    .set({ userCount: sql`${forums.userCount} - 1` })
+    .where(eq(forums.forumName, forumName));
+
   await db
     .delete(forumMembers)
     .where(
