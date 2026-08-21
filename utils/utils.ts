@@ -7,6 +7,7 @@ import {
   forums,
   messages,
   posts,
+  replies,
   user,
 } from "@/auth-schema";
 import { and, eq, sql } from "drizzle-orm";
@@ -44,6 +45,13 @@ export interface Comments {
   commentContent: string;
   commentAuthorName: string;
   originalPost: string;
+}
+
+export interface Replies {
+  replyId: string;
+  replyContent: string;
+  replyAuthorName: string;
+  originalComment: string;
 }
 
 export interface SidebarForums {
@@ -107,12 +115,15 @@ export const joinForum = async (
 };
 
 export const leaveForum = async (forumName: string, memberId: string) => {
-  const userExists = await db.select({
-    memberId: forumMembers 
-  }).from(forumMembers).where(eq(forumMembers.memberId, memberId));
+  const userExists = await db
+    .select({
+      memberId: forumMembers,
+    })
+    .from(forumMembers)
+    .where(eq(forumMembers.memberId, memberId));
 
-  if(userExists.length === 0) return;
-  
+  if (userExists.length === 0) return;
+
   await db
     .update(forums)
     .set({ userCount: sql`${forums.userCount} - 1` })
@@ -293,4 +304,28 @@ export const getComments = async (originalPost: string) => {
 
 export const deleteComment = async (commentId: string) => {
   await db.delete(comments).where(eq(comments.commentId, commentId));
+};
+
+//Reply related actions
+
+export const createReply = async(replyContent: string, replyAuthorName: string, replyAuthorId: string, originalComment: string) => {
+  await db.insert(replies).values({
+    replyContent,
+    replyAuthorName,
+    replyAuthorId,
+    originalComment,
+  })
+}
+
+export const getReplies = async (originalComment: string) => {
+  const commentReplies = await db
+    .select()
+    .from(replies)
+    .where(eq(replies.originalComment, originalComment));
+
+  return commentReplies as Replies[];
+};
+
+export const deleteReply = async (replyId: string) => {
+  await db.delete(replies).where(eq(replies.replyId, replyId));
 };
